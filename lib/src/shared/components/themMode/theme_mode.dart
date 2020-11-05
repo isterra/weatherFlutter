@@ -9,7 +9,6 @@ class CustomThemeMode with ChangeNotifier {
   CustomThemeMode() {
     SharedPreferences.getInstance().then((value) {
       _isDark = value.getBool('themeMode') ?? false;
-      print('change');
       notifyListeners();
     });
   }
