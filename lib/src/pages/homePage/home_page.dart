@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     weatherBloc.setWeatherBlocValue();
     return Scaffold(
-      body: HomePageBody.getBody(weatherBloc),
+      body: HomePageBody.getBody(weatherBloc, context),
     );
   }
 }

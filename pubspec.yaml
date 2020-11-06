@@ -33,6 +33,7 @@ dependencies:
   bloc_pattern: ^2.5.1
   rxdart: ^0.24.1
   dio: ^3.0.10
+  mdi: ^4.0.0
 
 dev_dependencies:
   flutter_test:
