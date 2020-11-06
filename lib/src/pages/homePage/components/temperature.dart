@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mdi/mdi.dart';
+import 'package:model_flutter/src/pages/homePage/components/previsoes.dart';
 
 class Temperature extends StatelessWidget {
   @override
@@ -15,7 +16,7 @@ class Temperature extends StatelessWidget {
               width: MediaQuery.of(context).size.width / 10,
             ),
             Text(
-              '20',
+              '27',
               style: TextStyle(
                   fontSize: MediaQuery.of(context).size.width / 4,
                   color: Colors.white.withOpacity(0.5)),
@@ -34,6 +35,24 @@ class Temperature extends StatelessWidget {
               fontSize: MediaQuery.of(context).size.width / 10),
           textAlign: TextAlign.left,
         ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Container(
+            margin: EdgeInsets.only(top: 30),
+            child: Row(
+              children: [
+                getPrevisoes(context, 'Ensolarado', 27),
+                getPrevisoes(context, 'Tempestades', 23),
+                getPrevisoes(context, 'Ensolarado', 33),
+                getPrevisoes(context, 'Tempestades', 20),
+                getPrevisoes(context, 'Ensolarado', 25),
+                getPrevisoes(context, 'Tempestades', 19),
+                getPrevisoes(context, 'Ensolarado', 37),
+                getPrevisoes(context, 'Tempestades', 21),
+              ],
+            ),
+          ),
+        )
       ],
     );
   }
