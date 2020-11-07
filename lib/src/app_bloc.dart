@@ -10,19 +10,19 @@ import 'package:rxdart/rxdart.dart';
 */
 
 class AppBloc extends BlocBase {
-  BehaviorSubject<int> counter = BehaviorSubject<int>.seeded(0);
+  BehaviorSubject<int> current = BehaviorSubject<int>.seeded(0);
 
-  Sink<int> get setCounterValue => counter.sink;
-  Stream<int> get getCounterStream => counter.stream;
-  int get getCounterValue => counter.value;
+  Sink<int> get setcurrentValue => current.sink;
+  Stream<int> get getcurrentStream => current.stream;
+  int get getcurrentValue => current.value;
 
-  void increment() {
-    setCounterValue.add(counter.value + 1);
+  void changeCurrent(int index) {
+    setcurrentValue.add(index);
   }
 
   @override
   void dispose() {
     super.dispose();
-    counter.close();
+    current.close();
   }
 }

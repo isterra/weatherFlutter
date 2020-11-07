@@ -8,11 +8,19 @@ getAnimation(String weather) {
       return 'sunny';
     case 'Tempestades':
       return 'storm';
+    case 'Ensolarado com muitas nuvens':
+      return 'partly-cloudy';
+    case 'Tempestades isoladas':
+      return 'stormshowersday';
       break;
     default:
   }
 }
 
+/*
+Ensolarado com muitas nuvens
+Tempestades isoladas
+*/
 getPrevisoes(BuildContext context, String weather, int graus) {
   double width = MediaQuery.of(context).size.width;
   return Container(
