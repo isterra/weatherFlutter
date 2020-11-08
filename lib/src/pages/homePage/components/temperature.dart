@@ -85,17 +85,8 @@ class Temperature extends StatelessWidget {
             margin: EdgeInsets.only(top: 30),
             child: Row(
               children: weather.results.forecast.map<Widget>((e) {
-                return getPrevisoes(context, e.description, e.max);
-              }).toList()
-              // getPrevisoes(context, 'Ensolarado', 27),
-              // getPrevisoes(context, 'Tempestades', 23),
-              // getPrevisoes(context, 'Ensolarado', 33),
-              // getPrevisoes(context, 'Tempestades', 20),
-              // getPrevisoes(context, 'Ensolarado', 25),
-              // getPrevisoes(context, 'Tempestades', 19),
-              // getPrevisoes(context, 'Ensolarado', 37),
-              // getPrevisoes(context, 'Tempestades', 21),
-              ,
+                return getPrevisoes(context, e.description, e.weekday, e.max);
+              }).toList(),
             ),
           ),
         )
