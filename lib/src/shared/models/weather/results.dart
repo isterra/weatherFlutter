@@ -58,9 +58,9 @@ class Results {
     cityName = json['city_name'];
     if (json['forecast'] != null) {
       forecast = new List<Forecast>();
-      json['forecast'].forEach((v) {
-        forecast.add(new Forecast.fromJson(v));
-      });
+      for (int i = 0; i <= 6; i++) {
+        forecast.add(Forecast.fromJson(json['forecast'][i]));
+      }
     }
     latitude = json['latitude'];
     longitude = json['longitude'];

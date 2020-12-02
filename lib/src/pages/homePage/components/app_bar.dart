@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class MyAppBar {
-  static AppBar getAppBar(Stream weatherStream) {
+  static AppBar getAppBar(BuildContext context, Stream weatherStream) {
     return AppBar(
       title: StreamBuilder(
         stream: weatherStream,
@@ -16,7 +16,7 @@ class MyAppBar {
             Icons.add,
             color: Colors.white,
           ),
-          onPressed: () => print('clicked')),
+          onPressed: () => Navigator.pushNamed(context, '/search')),
       actions: [
         IconButton(
             icon: Icon(Icons.more_vert), onPressed: () => print('clicked 2'))

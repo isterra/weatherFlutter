@@ -5,8 +5,8 @@ import 'package:model_flutter/src/shared/bloc/weather_bloc.dart';
 import 'package:model_flutter/src/shared/models/weather/weather.dart';
 
 class HomePageBody {
-  static getBody(
-      WeatherBloc weatherBloc, BuildContext context, Weather weather) {
+  static getBody(WeatherBloc weatherBloc, BuildContext context, Weather weather,
+      Stream temperatures) {
     return Container(
       height: double.infinity,
       decoration: BoxDecoration(
@@ -22,10 +22,12 @@ class HomePageBody {
           children: [
             Align(
               alignment: Alignment.topCenter,
-              child: MyAppBar.getAppBar(weatherBloc.getcitieNameStream),
+              child:
+                  MyAppBar.getAppBar(context, weatherBloc.getcitieNameStream),
             ),
             Temperature(
               weather: weather,
+              temperatures: temperatures,
             ),
           ],
         ),

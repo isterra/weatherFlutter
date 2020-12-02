@@ -1,4 +1,5 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
+import 'package:fcharts/fcharts.dart';
 import 'package:flutter/material.dart';
 import 'package:mdi/mdi.dart';
 import 'package:model_flutter/src/app_bloc.dart';
@@ -10,87 +11,151 @@ import 'package:model_flutter/src/shared/models/weather/weather.dart';
 
 class Temperature extends StatelessWidget {
   final Weather weather;
+  final Stream temperatures;
   final AppBloc appBloc = BlocProvider.getBloc<AppBloc>();
   final List pages = [0, 1];
-  Temperature({Key key, this.weather}) : super(key: key);
+  Temperature({Key key, this.weather, this.temperatures}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     final double width = MediaQuery.of(context).size.width;
+    final double heigth = MediaQuery.of(context).size.height;
     CarouselController buttonCarouselController = CarouselController();
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        Container(
-          height: width / 1.3,
-          child: CarouselSlider(
-            carouselController: buttonCarouselController,
-            options: CarouselOptions(
-                initialPage: 0,
-                autoPlay: false,
-                disableCenter: true,
-                enlargeCenterPage: true,
-                viewportFraction: 1,
-                onPageChanged: (index, reason) {
-                  appBloc.changeCurrent(index);
-                }),
-            items: [
-              Padding(
-                padding: EdgeInsets.only(top: width / 5),
-                child: Column(
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        SizedBox(
-                          width: width / 10,
-                        ),
-                        Text(
-                          weather.results.temp.toString(),
-                          style: TextStyle(
-                              fontSize: width / 4,
-                              color: Colors.white.withOpacity(0.5)),
-                        ),
-                        Icon(
-                          Mdi.temperatureCelsius,
-                          color: Colors.white.withOpacity(0.5),
-                          size: (width / 10) + 5,
-                        ),
-                      ],
-                    ),
-                    Text(
-                      weather.results.description,
-                      style: TextStyle(
-                          color: Colors.white.withOpacity(0.5),
-                          fontSize: width / 10),
-                      textAlign: TextAlign.left,
-                    ),
-                  ],
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            height: heigth / 2,
+            child: CarouselSlider(
+              carouselController: buttonCarouselController,
+              options: CarouselOptions(
+                  initialPage: 0,
+                  autoPlay: false,
+                  disableCenter: true,
+                  enlargeCenterPage: true,
+                  viewportFraction: 1,
+                  onPageChanged: (index, reason) {
+                    appBloc.changeCurrent(index);
+                  }),
+              items: [
+                Padding(
+                  padding: EdgeInsets.only(top: width / 3),
+                  child: Column(
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          SizedBox(
+                            width: width / 10,
+                          ),
+                          Text(
+                            weather.results.temp.toString(),
+                            style: TextStyle(
+                                fontSize: heigth / 8,
+                                color: Colors.white.withOpacity(0.5)),
+                          ),
+                          Icon(
+                            Mdi.temperatureCelsius,
+                            color: Colors.white.withOpacity(0.5),
+                            size: (heigth / 20),
+                          ),
+                        ],
+                      ),
+                      Text(
+                        weather.results.description,
+                        style: TextStyle(
+                            color: Colors.white.withOpacity(0.5),
+                            fontSize: heigth / 20),
+                        textAlign: TextAlign.left,
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              secondPageCaroussel(
-                  context,
-                  weather.results.humidity,
-                  weather.results.windSpeedy,
-                  weather.results.sunrise,
-                  weather.results.sunset,
-                  weather.results.date)
-            ],
-          ),
-        ),
-        getIndicator(appBloc.getcurrentStream),
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: Container(
-            margin: EdgeInsets.only(top: 30),
-            child: Row(
-              children: weather.results.forecast.map<Widget>((e) {
-                return getPrevisoes(context, e.description, e.weekday, e.max);
-              }).toList(),
+                secondPageCaroussel(
+                    context,
+                    weather.results.humidity,
+                    weather.results.windSpeedy,
+                    weather.results.sunrise,
+                    weather.results.sunset,
+                    weather.results.date)
+              ],
             ),
           ),
-        )
-      ],
+          getIndicator(appBloc.getcurrentStream),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Container(
+              margin: EdgeInsets.only(top: heigth / 10),
+              child: Row(
+                children: weather.results.forecast.map<Widget>((e) {
+                  return getPrevisoes(context, e);
+                }).toList(),
+              ),
+            ),
+          ),
+          Container(
+            margin: EdgeInsets.only(top: heigth / 10),
+            child: StreamBuilder<List>(
+              stream: temperatures,
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    children: [
+                      Text(
+                        "Temperaturas mínimas",
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height / 30),
+                      ),
+                      Container(
+                        height: 200,
+                        child: LineChart(
+                          lines: [
+                            Line(
+                              data: snapshot.data[0],
+                              xFn: (datum) => datum[0],
+                              yFn: (datum) => datum[1],
+                              curve: LineCurves.cardinalSpline,
+                            ),
+                          ],
+                          chartPadding:
+                              new EdgeInsets.fromLTRB(30.0, 10.0, 10.0, 30.0),
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height / 30,
+                      ),
+                      Text(
+                        "Temperaturas máximas",
+                        style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height / 30),
+                      ),
+                      Container(
+                        height: 200,
+                        margin: EdgeInsets.only(
+                            bottom: MediaQuery.of(context).size.height / 30),
+                        child: LineChart(
+                          lines: [
+                            Line(
+                              data: snapshot.data[1],
+                              xFn: (datum) => datum[0],
+                              yFn: (datum) => datum[1],
+                              curve: LineCurves.cardinalSpline,
+                            ),
+                          ],
+                          chartPadding:
+                              new EdgeInsets.fromLTRB(30.0, 10.0, 10.0, 30.0),
+                        ),
+                      )
+                    ],
+                  );
+                }
+                return SizedBox.shrink();
+              },
+            ),
+          )
+        ],
+      ),
     );
   }
 }

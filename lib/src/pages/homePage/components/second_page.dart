@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 secondPageCaroussel(
     BuildContext context, int humidade, String vento, nSol, pSol, date) {
   return Padding(
-    padding: EdgeInsets.only(top: MediaQuery.of(context).size.width / 15),
+    padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 8),
     child: Column(
       children: [
         getTextFormated(date, context, option: 1),
-        SizedBox(height: MediaQuery.of(context).size.width / 20),
+        SizedBox(height: MediaQuery.of(context).size.height / 20),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [

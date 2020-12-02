@@ -14,7 +14,8 @@ class HomePage extends StatelessWidget {
         stream: weatherBloc.getweatherStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
-            return HomePageBody.getBody(weatherBloc, context, snapshot.data);
+            return HomePageBody.getBody(weatherBloc, context, snapshot.data,
+                weatherBloc.getTemperaturesStream);
           }
           return SizedBox.shrink();
         },
