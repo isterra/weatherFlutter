@@ -42,7 +42,6 @@ class WeatherBloc extends BlocBase {
     changeCitieName(city);
     if (citieName.value != 'Weather') {
       var response = requests.dioGetWeather(city);
-      print(response);
       setweatherValue.add(Weather.fromJson(response));
       changeCitieName(response['results']['city']);
     }

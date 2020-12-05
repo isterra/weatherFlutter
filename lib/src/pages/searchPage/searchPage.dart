@@ -54,9 +54,9 @@ class SearchPage extends StatelessWidget {
   }
 
   onSubmitedValue(String city, BuildContext context) {
-    weatherBloc.updateWeatherCitie(city);
     Timer(Duration(microseconds: 700), () {
       Navigator.pushNamed(context, '/home');
     });
+    weatherBloc.updateWeatherCitie(city);
   }
 }
