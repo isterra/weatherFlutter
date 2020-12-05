@@ -1,14 +1,6 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
 import 'package:rxdart/rxdart.dart';
 
-/*
-   BehaviorSubject<tipoVariavel> variavel = BehaviorSubject<tipoVariavel>();
-
-  Sink<tipoVariavel> get setvariavelValue => variavel.sink;
-  Stream<tipoVariavel> get getvariavelStream => variavel.stream;
-  tipoVariavel get getvariavelValue => variavel.value;
-*/
-
 class AppBloc extends BlocBase {
   BehaviorSubject<int> current = BehaviorSubject<int>.seeded(0);
 

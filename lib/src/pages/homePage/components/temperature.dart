@@ -1,5 +1,4 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:fcharts/fcharts.dart';
 import 'package:flutter/material.dart';
 import 'package:mdi/mdi.dart';
 import 'package:model_flutter/src/app_bloc.dart';
@@ -67,7 +66,7 @@ class Temperature extends StatelessWidget {
                         style: TextStyle(
                             color: Colors.white.withOpacity(0.5),
                             fontSize: heigth / 20),
-                        textAlign: TextAlign.left,
+                        textAlign: TextAlign.center,
                       ),
                     ],
                   ),
@@ -89,71 +88,11 @@ class Temperature extends StatelessWidget {
               margin: EdgeInsets.only(top: heigth / 10),
               child: Row(
                 children: weather.results.forecast.map<Widget>((e) {
-                  return getPrevisoes(context, e);
+                  return getPrevisoes(context, e, weather.results.city);
                 }).toList(),
               ),
             ),
           ),
-          Container(
-            margin: EdgeInsets.only(top: heigth / 10),
-            child: StreamBuilder<List>(
-              stream: temperatures,
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  return Column(
-                    children: [
-                      Text(
-                        "Temperaturas mínimas",
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 30),
-                      ),
-                      Container(
-                        height: 200,
-                        child: LineChart(
-                          lines: [
-                            Line(
-                              data: snapshot.data[0],
-                              xFn: (datum) => datum[0],
-                              yFn: (datum) => datum[1],
-                              curve: LineCurves.cardinalSpline,
-                            ),
-                          ],
-                          chartPadding:
-                              new EdgeInsets.fromLTRB(30.0, 10.0, 10.0, 30.0),
-                        ),
-                      ),
-                      SizedBox(
-                        height: MediaQuery.of(context).size.height / 30,
-                      ),
-                      Text(
-                        "Temperaturas máximas",
-                        style: TextStyle(
-                            fontSize: MediaQuery.of(context).size.height / 30),
-                      ),
-                      Container(
-                        height: 200,
-                        margin: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).size.height / 30),
-                        child: LineChart(
-                          lines: [
-                            Line(
-                              data: snapshot.data[1],
-                              xFn: (datum) => datum[0],
-                              yFn: (datum) => datum[1],
-                              curve: LineCurves.cardinalSpline,
-                            ),
-                          ],
-                          chartPadding:
-                              new EdgeInsets.fromLTRB(30.0, 10.0, 10.0, 30.0),
-                        ),
-                      )
-                    ],
-                  );
-                }
-                return SizedBox.shrink();
-              },
-            ),
-          )
         ],
       ),
     );

@@ -4,6 +4,7 @@ import 'package:lottie/lottie.dart';
 import 'package:mdi/mdi.dart';
 import 'package:model_flutter/src/pages/homePage/components/previsoes.dart';
 import 'package:model_flutter/src/shared/bloc/weather_detail_bloc.dart';
+import 'package:model_flutter/src/shared/components/gradient.dart';
 import 'package:model_flutter/src/shared/models/weather/forecast.dart';
 
 class TemperatureDetail extends StatelessWidget {
@@ -16,12 +17,7 @@ class TemperatureDetail extends StatelessWidget {
           height: double.infinity,
           width: double.infinity,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-                colors: [Colors.blue[500], Colors.orange[400]],
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                stops: [0.0, 1.0],
-                tileMode: TileMode.clamp),
+            gradient: getGradient(weatherDetailBloc.city),
           ),
           child: StreamBuilder<Forecast>(
             stream: weatherDetailBloc.getforecastStream,
@@ -29,27 +25,27 @@ class TemperatureDetail extends StatelessWidget {
               if (snapshot.hasData) {
                 final size = MediaQuery.of(context).size.height;
                 return Container(
-                  margin: EdgeInsets.only(top: size / 5),
+                  margin: EdgeInsets.only(top: size / 7),
                   child: Column(
                     children: [
                       Text(
                         snapshot.data.date,
                         style: TextStyle(
                             color: Colors.white,
-                            fontSize: MediaQuery.of(context).size.width / 10),
+                            fontSize: MediaQuery.of(context).size.height / 16),
                       ),
                       Text(
                         snapshot.data.weekday,
                         style: TextStyle(
                             color: Colors.white.withOpacity(0.9),
-                            fontSize: MediaQuery.of(context).size.width / 12),
+                            fontSize: MediaQuery.of(context).size.height / 18),
                       ),
                       Container(
-                        height: MediaQuery.of(context).size.width / 2,
+                        height: MediaQuery.of(context).size.height / 5,
                         child: getAnimation(
                             snapshot.data.description,
                             snapshot.data.weekday,
-                            MediaQuery.of(context).size.width / 3,
+                            MediaQuery.of(context).size.height / 6,
                             snapshot.data.max,
                             snapshot.data.min),
                       ),
@@ -57,15 +53,11 @@ class TemperatureDetail extends StatelessWidget {
                         snapshot.data.description,
                         style: TextStyle(
                             color: Colors.white.withOpacity(0.9),
-                            fontSize: MediaQuery.of(context).size.width / 12),
+                            fontSize: MediaQuery.of(context).size.height / 20),
                         textAlign: TextAlign.center,
                       ),
                       Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width / 20,
-                          ),
                           Lottie.asset(
                             'lib/src/shared/assets/thermometer.json',
                             height: MediaQuery.of(context).size.width / 2,
@@ -75,7 +67,7 @@ class TemperatureDetail extends StatelessWidget {
                               getTemperatures(
                                   context, snapshot.data.max, 'Max: '),
                               SizedBox(
-                                height: MediaQuery.of(context).size.width / 4.5,
+                                height: MediaQuery.of(context).size.height / 10,
                               ),
                               getTemperatures(
                                   context, snapshot.data.min, 'Min:'),
@@ -115,5 +107,5 @@ getTemperatures(BuildContext context, int t, String tipo) {
 
 TextStyle styleText(BuildContext context) {
   return TextStyle(
-      color: Colors.white, fontSize: MediaQuery.of(context).size.width / 20);
+      color: Colors.white, fontSize: MediaQuery.of(context).size.height / 30);
 }

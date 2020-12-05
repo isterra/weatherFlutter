@@ -4,11 +4,13 @@ import 'package:rxdart/rxdart.dart';
 
 class WeatherDetailBloc extends BlocBase {
   BehaviorSubject<Forecast> forecast = BehaviorSubject<Forecast>();
+  String city;
   Sink<Forecast> get setforecastValue => forecast.sink;
   Stream<Forecast> get getforecastStream => forecast.stream;
 
-  void setForecast(Forecast e) {
+  void setForecast(Forecast e, String city) {
     setforecastValue.add(e);
+    this.city = city;
   }
 
   void dispose() {

@@ -58,7 +58,7 @@ class Results {
     cityName = json['city_name'];
     if (json['forecast'] != null) {
       forecast = new List<Forecast>();
-      for (int i = 0; i <= 6; i++) {
+      for (int i = 0; i <= 5; i++) {
         forecast.add(Forecast.fromJson(json['forecast'][i]));
       }
     }

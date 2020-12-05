@@ -1,5 +1,4 @@
 import 'package:bloc_pattern/bloc_pattern.dart';
-import 'package:model_flutter/src/shared/models/weather/forecast.dart';
 import 'package:model_flutter/src/shared/models/weather/weather.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -35,35 +34,18 @@ class WeatherBloc extends BlocBase {
   void setWeatherBlocValue() {
     SharedPreferences.getInstance().then((value) {
       String name = value.getString('citieName') ?? 'Weather';
-      changeCitieName(name);
-      updateWeatherCitie();
-      createDataGrraph();
+      updateWeatherCitie(name);
     });
   }
 
-  void createDataGrraph() {
-    List max = new List();
-    List min = new List();
-    List<Forecast> forecast = weather.value.results.forecast;
-    for (int i = 0; i <= 6; i++) {
-      var valuemax = [forecast[i].weekday, forecast[i].max];
-      var valuemin = [forecast[i].weekday, forecast[i].min];
-      max.add(valuemax);
-      min.add(valuemin);
+  void updateWeatherCitie(String city) {
+    changeCitieName(city);
+    if (citieName.value != 'Weather') {
+      var response = requests.dioGetWeather(city);
+      print(response);
+      setweatherValue.add(Weather.fromJson(response));
+      changeCitieName(response['results']['city']);
     }
-    List temperature = [min, max];
-    settemperaturesValue.add(temperature);
-  }
-
-  void updateWeatherCitie() async {
-    // Response response = await requests.dioGetWeather(citieName.value);
-    // if (response.statusCode >= 200 && response.statusCode < 300) {
-    //   setweatherValue.add(Weather.fromJson(response.data));
-    // } else {
-    //   setweatherValue.add(null);
-    // }
-    setweatherValue
-        .add(Weather.fromJson(requests.dioGetWeather(citieName.value)));
   }
 
   @override

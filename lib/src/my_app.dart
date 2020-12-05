@@ -26,7 +26,7 @@ class MyApp extends StatelessWidget {
 
           initialRoute: '/home',
 
-          title: 'Template flutter ',
+          title: 'Weather',
 
           // ---------- defining routes ---------------
           routes: {
